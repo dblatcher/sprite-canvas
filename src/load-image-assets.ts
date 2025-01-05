@@ -1,13 +1,5 @@
+import { AssetData, GenericAssetMap } from "./types";
 
-export type AssetData = {
-    src: string,
-    sprites?: {
-        cols: number,
-        rows: number,
-    }
-}
-
-type GenericAssetMap<Key extends string> = Record<Key, HTMLImageElement>;
 
 export const loadImage = async (src: string): Promise<HTMLImageElement> => {
     return new Promise((resolve, reject) => {
