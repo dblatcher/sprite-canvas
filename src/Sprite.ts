@@ -3,21 +3,20 @@ import { AssetData, SpriteFrame } from "./types";
 type Direction = 'Up' | 'Down' | 'Left' | 'Right'
 
 
-
 type Animation<Key extends string> = {
     frames: Partial<Record<Direction, SpriteFrame<Key>[]>>
 }
 
-export class Sprite<Key extends string = string> {
+export class Sprite<AnimationName extends string, AssetKey extends string> {
 
     defaultDirection: Direction
-    animations: Record<string, Animation<Key> | undefined>
-    assetData: Record<Key, AssetData>
+    animations: Record<AnimationName, Animation<AssetKey> | undefined>
+    assetData: Record<AssetKey, AssetData>
 
     constructor(
         defaultDirection: Direction,
-        animations: Record<string, Animation<Key> | undefined>,
-        assetData: Record<Key, AssetData>
+        animations: Record<string, Animation<AssetKey> | undefined>,
+        assetData: Record<AssetKey, AssetData>
     ) {
         this.defaultDirection = defaultDirection
         this.animations = animations
@@ -25,7 +24,7 @@ export class Sprite<Key extends string = string> {
         this.getFrame = this.getFrame.bind(this)
     }
 
-    public getFrame(animationName: string, direction: Direction, frameIndex: number,): SpriteFrame<Key> | undefined {
+    public getFrame(animationName: AnimationName, direction: Direction, frameIndex: number,): SpriteFrame<AssetKey> | undefined {
         const animation = this.animations[animationName];
         const frames = animation?.frames[direction] ?? animation?.frames[this.defaultDirection];
         if (!frames) {
