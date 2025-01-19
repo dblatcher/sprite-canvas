@@ -13,6 +13,7 @@ export type ViewPort = {
     height: number;
 }
 
+export type GenericDataMap<Key extends string> = Record<Key, AssetData>;
 export type GenericAssetMap<Key extends string> = Record<Key, HTMLImageElement>;
 
 export type SpriteFrame<Key extends string> = {

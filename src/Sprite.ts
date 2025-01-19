@@ -1,4 +1,4 @@
-import { AssetData, SpriteFrame } from "./types";
+import { GenericDataMap, SpriteFrame } from "./types";
 
 type Direction = 'Up' | 'Down' | 'Left' | 'Right'
 
@@ -11,12 +11,12 @@ export class Sprite<AnimationName extends string, AssetKey extends string> {
 
     defaultDirection: Direction
     animations: Record<AnimationName, Animation<AssetKey> | undefined>
-    assetData: Record<AssetKey, AssetData>
+    assetData: GenericDataMap<AssetKey>
 
     constructor(
         defaultDirection: Direction,
         animations: Record<string, Animation<AssetKey> | undefined>,
-        assetData: Record<AssetKey, AssetData>
+        assetData: GenericDataMap<AssetKey>
     ) {
         this.defaultDirection = defaultDirection
         this.animations = animations
