@@ -1,6 +1,6 @@
 import { GenericDataMap, SpriteFrame } from "./types";
 
-type Direction = 'Up' | 'Down' | 'Left' | 'Right'
+export type Direction = 'Up' | 'Down' | 'Left' | 'Right'
 
 
 type Animation<Key extends string> = {
