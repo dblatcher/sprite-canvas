@@ -37,6 +37,22 @@ export type DrawToCanvasFunction<GameState extends BaseGameState, AssetKey exten
  * The url should be revoked wit URL.revokeObjectURL when no longer needed.
  * if viewPort is not provided, the entire map is rendered 
  */
+export const drawOffScreen =
+    <G extends BaseGameState, A extends string>(draw: DrawToCanvasFunction<G, A>): GenerateImageUrl<G, A> =>
+        (game: G, assets: GenericAssetMap<A>, viewPort?: ViewPort): string => {
+            const canvas = document.createElement('canvas')
+            canvas.width = viewPort?.width ?? game.mapWidth
+            canvas.height = viewPort?.height ?? game.mapHeight
+            draw(game, assets, viewPort)(canvas)
+            return (canvas.toDataURL())
+        }
+
+
+/**
+ * Draws the scene offscreen and returns an ObjectUrl for the image.
+ * The url should be revoked wit URL.revokeObjectURL when no longer needed.
+ * if viewPort is not provided, the entire map is rendered 
+ */
 export type GenerateImageUrl<GameState extends BaseGameState, AssetKey extends string> = {
     (game: GameState, assets: GenericAssetMap<AssetKey>, viewPort?: ViewPort): string
 }
