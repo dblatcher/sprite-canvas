@@ -32,4 +32,5 @@ export type DrawSpriteParams<Key extends string> = SpriteFrame<Key> & {
     width?: number;
     height?: number;
     center?: boolean;
+    filter?: string;
 }

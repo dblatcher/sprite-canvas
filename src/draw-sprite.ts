@@ -1,3 +1,4 @@
+import { withFilter } from "./canvas-utils";
 import { OffsetDrawMethods } from "./offset-drawing";
 import { AssetData, GenericAssetMap, DrawSpriteParams } from "./types";
 
@@ -15,7 +16,8 @@ export const drawSpriteFunc = <Key extends string>(
         x, y,
         fx = 0, fy = 0,
         width = defaultWidth, height = defaultHeight,
-        center = false
+        center = false,
+        filter,
     }: DrawSpriteParams<Key>) => {
         const assetData = allAssetData[key];
         const img = assets[key];
@@ -31,8 +33,7 @@ export const drawSpriteFunc = <Key extends string>(
             ? y - (height * scaleHeight) / 2
             : y + ((height - (height * scaleHeight)) / 2);
 
-
-        drawingMethods.drawImage(
+        const operation = () => drawingMethods.drawImage(
             img,
             fx * frameWidth,
             fy * frameHeight,
@@ -41,5 +42,11 @@ export const drawSpriteFunc = <Key extends string>(
             adjustedY,
             width * scaleWidth, height * scaleHeight
         )
+
+        if (!filter) {
+            return operation()
+        }
+
+        return withFilter(drawingMethods.ctx)(filter, operation)
     }
 

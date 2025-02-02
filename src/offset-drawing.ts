@@ -17,7 +17,8 @@ export type OffsetDrawMethods = {
         x: number,
         y: number,
         maxWidth?: number,
-    ) => void
+    ) => void,
+    ctx: CanvasRenderingContext2D
 }
 
 export const makeDrawingMethods = (ctx: CanvasRenderingContext2D, viewPort: ViewPort): OffsetDrawMethods => {
@@ -58,6 +59,5 @@ export const makeDrawingMethods = (ctx: CanvasRenderingContext2D, viewPort: View
     ) =>
         ctx.fillText(text, x - viewPort.x, y - viewPort.y, maxWidth)
 
-
-    return { arc, moveTo, lineTo, arcTo, rect, quadraticCurveTo, drawImage, fillText }
+    return { arc, moveTo, lineTo, arcTo, rect, quadraticCurveTo, drawImage, fillText, ctx }
 }
