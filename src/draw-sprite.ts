@@ -22,8 +22,15 @@ export const drawSpriteFunc = <Key extends string>(
         const spriteDims = assetData.sprites ?? { rows: 1, cols: 1 }
         const frameWidth = img.naturalWidth / spriteDims.cols
         const frameHeight = img.naturalHeight / spriteDims.rows
-        const adjustedX = center ? x - width / 2 : x;
-        const adjustedY = center ? y - height / 2 : y;
+
+        const { width: scaleWidth = 1, height: scaleHeight = 1 } = assetData.frameScale ?? {}
+        const adjustedX = center
+            ? x - (width * scaleWidth) / 2
+            : x + ((width - (width * scaleWidth)) / 2);
+        const adjustedY = center
+            ? y - (height * scaleHeight) / 2
+            : y + ((height - (height * scaleHeight)) / 2);
+
 
         drawingMethods.drawImage(
             img,
@@ -32,7 +39,7 @@ export const drawSpriteFunc = <Key extends string>(
             frameWidth, frameHeight,
             adjustedX,
             adjustedY,
-            width, height
+            width * scaleWidth, height * scaleHeight
         )
     }
 

@@ -4,6 +4,10 @@ export type AssetData = {
         cols: number,
         rows: number,
     }
+    frameScale?: {
+        width?: number
+        height?: number
+    }
 }
 
 export type ViewPort = {

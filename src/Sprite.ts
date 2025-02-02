@@ -1,4 +1,4 @@
-import { GenericDataMap, SpriteFrame } from "./types";
+import { SpriteFrame } from "./types";
 
 export type Direction = 'Up' | 'Down' | 'Left' | 'Right'
 
@@ -7,28 +7,28 @@ type Animation<Key extends string> = {
     frames: Partial<Record<Direction, SpriteFrame<Key>[]>>
 }
 
-export class Sprite<AnimationName extends string, AssetKey extends string> {
+export class Sprite<AssetKey extends string, AnimationName extends string = string> {
 
     defaultDirection: Direction
     animations: Record<AnimationName, Animation<AssetKey> | undefined>
-    assetData: GenericDataMap<AssetKey>
+    defaultFrame: SpriteFrame<AssetKey>
 
     constructor(
         defaultDirection: Direction,
+        defaultFrame: SpriteFrame<AssetKey>,
         animations: Record<string, Animation<AssetKey> | undefined>,
-        assetData: GenericDataMap<AssetKey>
     ) {
         this.defaultDirection = defaultDirection
+        this.defaultFrame = defaultFrame
         this.animations = animations
-        this.assetData = assetData
         this.getFrame = this.getFrame.bind(this)
     }
 
-    public getFrame(animationName: AnimationName, direction: Direction, frameIndex: number,): SpriteFrame<AssetKey> | undefined {
+    public getFrame(animationName: AnimationName, direction: Direction, frameIndex: number,): SpriteFrame<AssetKey> {
         const animation = this.animations[animationName];
         const frames = animation?.frames[direction] ?? animation?.frames[this.defaultDirection];
         if (!frames) {
-            return undefined
+            return this.defaultFrame
         }
         return frames[frameIndex % frames.length];
     }
