@@ -1,7 +1,8 @@
 {
   "name": "@dblatcher/sprite-canvas",
   "version": "0.2.5",
-  "description": "TypeScript NPM Module Boilerplate",
+  "description": "TypeScript library for drawing sprites on canvas elements",
+  "private": false,
 	"main": "dist/esm/index.js",
 	"types": "dist/declaration/index.d.ts",
   "scripts": {
