@@ -1,12 +1,13 @@
 {
   "name": "@dblatcher/sprite-canvas",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "TypeScript library for drawing sprites on canvas elements",
   "private": false,
-	"main": "dist/esm/index.js",
-	"types": "dist/declaration/index.d.ts",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build ./tsconfig.esm.json",
+    "build": "tsc --build",
+    "build-esm": "tsc --build ./tsconfig.esm.json",
     "format": "prettier --write \"src/**/*.(js|ts)\"",
     "lint": "eslint src --ext .js,.ts",
     "lint:fix": "eslint src --fix --ext .js,.ts",
