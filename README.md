@@ -10,6 +10,8 @@ This project is TBC
 
 ## publishing notes
 
+for namescaped packages, need to run `npm publish --access=public`
+
 To build for local installs, edit the package files:
 
 ```
