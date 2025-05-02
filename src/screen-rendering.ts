@@ -1,58 +1,63 @@
-import { clamp } from "./lib/util";
-import { GenericAssetMap, ViewPort } from "./types";
+import { clamp } from './lib/util';
+import { GenericAssetMap, ViewPort } from './types';
 
 export type BaseGameState = {
-    cycleNumber: number;
-    mapWidth: number;
-    mapHeight: number;
-}
+  cycleNumber: number;
+  mapWidth: number;
+  mapHeight: number;
+};
 
 export const fullViewPort = (gameState: BaseGameState): ViewPort => ({
-    x: 0, y: 0, width: gameState.mapWidth, height: gameState.mapHeight
-})
+  x: 0,
+  y: 0,
+  width: gameState.mapWidth,
+  height: gameState.mapHeight,
+});
 
-export const centeredViewPort = (focus: { x: number, y: number }, width: number, height: number, gameState: BaseGameState): ViewPort => {
-    return {
-        width,
-        height,
-        x: clamp(focus.x - width * .5, gameState.mapWidth - (width), 0),
-        y: clamp(focus.y - height * .5, gameState.mapHeight - (height), 0),
-    }
-}
+export const centeredViewPort = (
+  focus: { x: number; y: number },
+  width: number,
+  height: number,
+  gameState: BaseGameState,
+): ViewPort => {
+  return {
+    width,
+    height,
+    x: clamp(focus.x - width * 0.5, gameState.mapWidth - width, 0),
+    y: clamp(focus.y - height * 0.5, gameState.mapHeight - height, 0),
+  };
+};
 
 /**
  * Higher level function - returns a function that will draw the scene on a given canvas element.
- * if viewPort is not provided, the entire map is rendered 
+ * if viewPort is not provided, the entire map is rendered
  */
 export type DrawToCanvasFunction<GameState extends BaseGameState, AssetKey extends string> = {
-    (
-        state: GameState,
-        assets: GenericAssetMap<AssetKey>,
-        viewPort?: ViewPort,
-    ): { (canvas: HTMLCanvasElement | null): void }
-}
+  (state: GameState, assets: GenericAssetMap<AssetKey>, viewPort?: ViewPort): {
+    (canvas: HTMLCanvasElement | null): void;
+  };
+};
 
 /**
  * Draws the scene offscreen and returns an ObjectUrl for the image.
  * The url should be revoked wit URL.revokeObjectURL when no longer needed.
- * if viewPort is not provided, the entire map is rendered 
+ * if viewPort is not provided, the entire map is rendered
  */
 export const drawOffScreen =
-    <G extends BaseGameState, A extends string>(draw: DrawToCanvasFunction<G, A>): GenerateImageUrl<G, A> =>
-        (game: G, assets: GenericAssetMap<A>, viewPort?: ViewPort): string => {
-            const canvas = document.createElement('canvas')
-            canvas.width = viewPort?.width ?? game.mapWidth
-            canvas.height = viewPort?.height ?? game.mapHeight
-            draw(game, assets, viewPort)(canvas)
-            return (canvas.toDataURL())
-        }
-
+  <G extends BaseGameState, A extends string>(draw: DrawToCanvasFunction<G, A>): GenerateImageUrl<G, A> =>
+  (game: G, assets: GenericAssetMap<A>, viewPort?: ViewPort): string => {
+    const canvas = document.createElement('canvas');
+    canvas.width = viewPort?.width ?? game.mapWidth;
+    canvas.height = viewPort?.height ?? game.mapHeight;
+    draw(game, assets, viewPort)(canvas);
+    return canvas.toDataURL();
+  };
 
 /**
  * Draws the scene offscreen and returns an ObjectUrl for the image.
  * The url should be revoked wit URL.revokeObjectURL when no longer needed.
- * if viewPort is not provided, the entire map is rendered 
+ * if viewPort is not provided, the entire map is rendered
  */
 export type GenerateImageUrl<GameState extends BaseGameState, AssetKey extends string> = {
-    (game: GameState, assets: GenericAssetMap<AssetKey>, viewPort?: ViewPort): string
-}
+  (game: GameState, assets: GenericAssetMap<AssetKey>, viewPort?: ViewPort): string;
+};
