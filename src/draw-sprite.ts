@@ -1,4 +1,5 @@
 import { withFilter } from "./canvas-utils";
+import { getFrameDims } from "./lib/util";
 import { OffsetDrawMethods } from "./offset-drawing";
 import { AssetData, GenericAssetMap, DrawSpriteParams } from "./types";
 
@@ -21,9 +22,7 @@ export const drawSpriteFunc = <Key extends string>(
     }: DrawSpriteParams<Key>) => {
         const assetData = allAssetData[key];
         const img = assets[key];
-        const spriteDims = assetData.sprites ?? { rows: 1, cols: 1 }
-        const frameWidth = img.naturalWidth / spriteDims.cols
-        const frameHeight = img.naturalHeight / spriteDims.rows
+        const { frameWidth, frameHeight } = getFrameDims(key, assets, allAssetData);
 
         const { width: scaleWidth = 1, height: scaleHeight = 1 } = assetData.frameScale ?? {}
         const adjustedX = center
